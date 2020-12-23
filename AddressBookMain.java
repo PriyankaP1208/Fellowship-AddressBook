@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -19,7 +20,7 @@ public class AddressBookMain
 		while(choice<8)
         {
         	
-        		System.out.println("1.Create Adress Book 2.Add new person 3.Edit");
+        		System.out.println("1.Create Adress Book 2.Add new person 3.Edit 4.Delete");
         		System.out.println("Enter your choice:");
         		Scanner s1=new Scanner(System.in);
         		choice=s1.nextInt();
@@ -33,6 +34,9 @@ public class AddressBookMain
                 			break;
             		case 3:
                 			Edit();
+                			break;
+            		case 4:
+                			Delete();
                 			break;
             	}
         }
@@ -113,5 +117,23 @@ public class AddressBookMain
                 ex.printStackTrace();
             }
         	
+        }
+        public static void Delete() throws IOException
+        {
+        	RandomAccessFile file = new RandomAccessFile("info.txt", "rw");
+            String delete;
+            String task="";
+            byte []tasking;
+            while ((delete = file.readLine()) != null) {
+                if (delete.startsWith("Sonu")) {
+                    continue;
+                }
+                task+=delete+"\n";
+            }
+            System.out.println(task);
+            BufferedWriter writer = new BufferedWriter(new FileWriter("info.txt"));
+            writer.write(task);
+            file.close();
+            writer.close();
         }
 }
