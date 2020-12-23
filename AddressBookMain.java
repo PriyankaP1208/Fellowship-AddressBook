@@ -20,7 +20,7 @@ public class AddressBookMain
 		while(choice<8)
         {
         	
-        		System.out.println("1.Create Adress Book 2.Add new person 3.Edit 4.Delete");
+        		System.out.println("1.Create Adress Book 2.Add new person 3.Edit 4.Delete 5.Add Multiple person");
         		System.out.println("Enter your choice:");
         		Scanner s1=new Scanner(System.in);
         		choice=s1.nextInt();
@@ -37,6 +37,9 @@ public class AddressBookMain
                 			break;
             		case 4:
                 			Delete();
+                			break;
+            		case 5:
+                			AddContact();
                 			break;
             	}
         }
@@ -135,5 +138,10 @@ public class AddressBookMain
             writer.write(task);
             file.close();
             writer.close();
+        }
+        public static void AddContact() throws IOException
+        {
+        	Person p1=new Person();
+    		p1.info();
         }
 }
