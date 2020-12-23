@@ -3,12 +3,14 @@ package FellowshipAddressBook;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 public class AddressBookMain 
@@ -20,7 +22,7 @@ public class AddressBookMain
 		while(choice<8)
         {
         	
-        		System.out.println("1.Create Adress Book 2.Add new person 3.Edit 4.Delete 5.Add Multiple person");
+        		System.out.println("1.Create Adress Book 2.Add new person 3.Edit 4.Delete 5.Add Multiple person 6.Check Duplicate Entry 7.Sort by name");
         		System.out.println("Enter your choice:");
         		Scanner s1=new Scanner(System.in);
         		choice=s1.nextInt();
@@ -40,6 +42,12 @@ public class AddressBookMain
                 			break;
             		case 5:
                 			AddContact();
+                			break;
+            		case 6:
+                			Duplicate();
+                			break;
+            		case 7:
+                			SortByName();
                 			break;
             	}
         }
@@ -144,4 +152,52 @@ public class AddressBookMain
         	Person p1=new Person();
     		p1.info();
         }
+        public static void Duplicate() throws IOException
+        {
+        	Scanner sc1 = new Scanner(System.in);
+            System.out.println("Enter Name");
+            String word = sc1.next();
+            boolean flag = false;
+            int count = 0;
+           Scanner sc2 = new Scanner(new FileInputStream("info.txt"));
+            while(sc2.hasNextLine()) {
+               String line = sc2.nextLine();
+               System.out.println(line);
+               if(line.indexOf(word)!=-1) {
+                  flag = true;
+                  count = count+1;
+               }
+            }
+            if(flag) {
+               System.out.println("name already present");
+               
+            } else
+            {
+            	System.out.println("No duplicate data found");
+            }
+        }
+        public static void SortByName() throws IOException
+        {
+        	String inputFile = "info.txt";
+    		String outputFile = "output.csv";
+    		FileReader fileReader = new FileReader(inputFile);
+    		BufferedReader bufferedReader = new BufferedReader(fileReader);
+    		String inputLine;
+    		List<String> lineList = new ArrayList<String>();
+    		while ((inputLine = bufferedReader.readLine()) != null) 
+    		{
+    			lineList.add(inputLine);
+    		}
+    		fileReader.close();
+    		Collections.sort(lineList);
+    		FileWriter fileWriter = new FileWriter(outputFile);
+    		PrintWriter out = new PrintWriter(fileWriter);
+    		for (String outputLine : lineList) 
+    		{
+    			out.println(outputLine);
+    		}
+    		out.flush();
+    		out.close();
+    		fileWriter.close();            
+    }
 }
